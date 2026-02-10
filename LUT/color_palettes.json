@@ -1,0 +1,50 @@
+{
+  "world_palette": {
+    "lightNeutral": "#E8E4DA",
+    "midNeutral": "#B8B6B0",
+    "darkNeutral": "#4A4A4A",
+    "warmNeutral": "#C7B8A2",
+    "mutedBrown": "#8A6A4F",
+    "desaturatedTan": "#C9B08A",
+    "softRustOrange": "#B46A3C",
+    "brickRed": "#8E3F3A",
+    "slateBlue": "#5A6B7A",
+    "mutedTeal": "#4F7A76",
+    "coolGrayBlue": "#7F8C96",
+    "desaturatedGreen": "#6E7A5F",
+    "mutedYellow": "#D1B85A",
+    "mutedRed": "#B44A4A",
+    "mutedBlue": "#4A6FB4",
+    "mutedGreen": "#5A9A6A"
+  },
+
+  "environment_palette": {
+    "lightNeutral": "#E8E4DA",
+    "midNeutral": "#B8B6B0",
+    "darkNeutral": "#4A4A4A",
+    "warmNeutral": "#C7B8A2",
+    "mutedBrown": "#8A6A4F",
+    "desaturatedTan": "#C9B08A",
+    "coolGrayBlue": "#7F8C96",
+    "desaturatedGreen": "#6E7A5F"
+  },
+
+"clothing_palette": {
+  "darkNeutral": "#4A4A4A",
+  "midNeutral": "#B8B6B0",
+  "mutedBrown": "#8A6A4F",
+  "brickRed": "#8E3F3A",
+  "slateBlue": "#5A6B7A",
+  "mutedTeal": "#4F7A76",
+  "desaturatedGreen": "#6E7A5F",
+  "mutedBlue": "#4A6FB4"
+},
+
+
+  "accent_palette": {
+    "mutedYellow": "#D1B85A",
+    "mutedRed": "#B44A4A",
+    "mutedBlue": "#4A6FB4",
+    "mutedGreen": "#5A9A6A"
+  }
+}

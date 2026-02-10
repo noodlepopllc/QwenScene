@@ -1,0 +1,33 @@
+{
+  "top": {
+    "default_coverage": [1,1,1,1,1,1,0,0,0],
+    "default_neckline": "normal",
+    "default_allowed_styles": [
+      "CROPPED",
+      "CREW", "NORMAL", "V_CUT", "SCOOP", "HALTER",
+      "SLEEVELESS", "SHORT_SLEEVE", "LONG_SLEEVE"
+    ]
+  },
+
+  "bottom": {
+    "default_coverage": [0,0,0,0,0,0,1,1,1],
+    "default_neckline": "na",
+    "default_allowed_styles": ["MINI", "MIDI", "MAXI", "SHORTS"]
+  },
+
+  "onepiece": {
+    "default_coverage": [1,1,1,1,1,1,1,1,1],
+    "default_neckline": "normal",
+    "default_allowed_styles": [
+      "MINI", "MIDI", "MAXI",
+      "SLEEVELESS", "SHORT_SLEEVE", "LONG_SLEEVE",
+      "NORMAL"
+    ]
+  },
+
+  "footwear": {
+    "default_coverage": [0,0,0,0,0,0,0,0,0],
+    "default_neckline": "na",
+    "default_allowed_styles": ["LOW", "MID", "TALL"]
+  }
+}

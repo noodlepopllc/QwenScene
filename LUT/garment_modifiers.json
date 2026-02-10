@@ -1,0 +1,116 @@
+{
+  "SILHOUETTE": {
+    "SLEEVELESS": {
+      "coverage": [0,0,0, null,null,null, null,null,null]
+    },
+
+    "SHORT_SLEEVE": {
+      "coverage": [1,1,0, null,null,null, null,null,null]
+    },
+
+    "LONG_SLEEVE": {
+      "coverage": [1,1,1, null,null,null, null,null,null]
+    },
+
+    "CROPPED": {
+      "coverage": [null,null,null, null,0,0, null,null,null]
+    },
+
+    "MINI": {
+      "coverage": [null,null,null, null,null,null, 1,0,0]
+    },
+
+    "MIDI": {
+      "coverage": [null,null,null, null,null,null, 1,1,0]
+    },
+
+    "MAXI": {
+      "coverage": [null,null,null, null,null,null, 1,1,1]
+    },
+
+    "SHORTS": {
+      "coverage": [null,null,null, null,null,null, 1,0,0]
+    },
+
+    "HIGHCUT": {
+      "coverage": [null,null,null, null,null,1, 0,0,0]
+    },
+
+    "LOW": {
+      "coverage": [null,null,null, null,null,null, 0,0,0]
+    },
+
+    "MID": {
+      "coverage": [null,null,null, null,null,null, 1,1,0]
+    },
+
+    "TALL": {
+      "coverage": [null,null,null, null,null,null, 1,1,1]
+    }
+  },
+
+  "NECKLINES": {
+    "CREW": {
+      "coverage": [null,null,null, 1,1,1, null,null,null]
+    },
+
+    "NORMAL": {
+      "coverage": [null,null,null, 1,1,1, null,null,null]
+    },
+
+    "STANDARD": {
+      "coverage": [null,null,null, 1,1,1, null,null,null]
+    },
+
+    "V_CUT": {
+      "coverage": [null,null,null, 0,1,1, null,null,null]
+    },
+
+    "SCOOP": {
+      "coverage": [null,null,null, 0,1,1, null,null,null]
+    },
+
+    "HALTER": {
+      "coverage": [null,null,null, 0,1,1, null,null,null]
+    }
+  },
+
+  "ZIPPERS": {
+    "ZIPPED": {
+      "zipper_state": "closed"
+    },
+
+    "HALFZIPPED": {
+      "zipper_state": "partially_open"
+    },
+
+    "UNZIPPED": {
+      "zipper_state": "open"
+    },
+
+    "EXPOSED": {
+      "zipper_exposed": true
+    },
+
+    "HIDDEN": {
+      "zipper_exposed": false
+    }
+  },
+
+  "DECORATORS": [
+    "WORN",
+    "DISTRESSED",
+    "FRAYED",
+    "TORN",
+    "TATTERED",
+    "SHREDDED",
+    "BURNT",
+    "SCORCHED",
+    "WEATHERED",
+    "DIRTY",
+    "MUDDY",
+    "WET",
+    "PATCHED",
+    "FADED"
+  ]
+}

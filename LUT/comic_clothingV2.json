@@ -1,0 +1,182 @@
+{
+  "TSHIRT": {
+    "id": 1,
+    "vocab": "TSHIRT",
+    "name": "t‑shirt",
+    "slot": "top",
+    "garment_type": "shirt",
+    "default_neckline": "v_cut",
+    "default_style": "SHORT_SLEEVE",
+    "default_primary_color_hex": "#B8B6B0"
+  },
+
+  "SKIRT": {
+    "id": 2,
+    "vocab": "SKIRT",
+    "name": "skirt",
+    "slot": "bottom",
+    "garment_type": "skirt",
+    "default_style": "MIDI",
+    "default_primary_color_hex": "#4A4A4A"
+  },
+
+  "DRESS": {
+    "id": 3,
+    "vocab": "DRESS",
+    "name": "dress",
+    "slot": "onepiece",
+    "garment_type": "dress",
+    "default_style": "MIDI",
+    "default_primary_color_hex": "#8A6A4F"
+  },
+
+  "BOOTS": {
+    "id": 4,
+    "vocab": "BOOTS",
+    "name": "boots",
+    "slot": "footwear",
+    "garment_type": "boots",
+    "default_style": "MID",
+    "default_primary_color_hex": "#4A4A4A"
+  },
+
+  "CATSUIT": {
+    "id": 5,
+    "vocab": "CATSUIT",
+    "name": "catsuit",
+    "slot": "onepiece",
+    "garment_type": "catsuit",
+    "default_style": "LONG_SLEEVE",
+    "default_primary_color_hex": "#4A4A4A"
+  },
+
+  "NIGHTSHIRT": {
+    "id": 6,
+    "vocab": "NIGHTSHIRT",
+    "name": "nightshirt",
+    "slot": "onepiece",
+    "garment_type": "shirt",
+    "default_style": "LONG_SLEEVE",
+    "default_primary_color_hex": "#B8B6B0"
+  },
+
+  "CAMISOLE": {
+    "id": 7,
+    "vocab": "CAMISOLE",
+    "name": "camisole",
+    "slot": "onepiece",
+    "garment_type": "shirt",
+    "default_style": "SLEEVELESS",
+    "default_primary_color_hex": "#4F7A76"
+  },
+
+  "PANTS": {
+    "id": 8,
+    "vocab": "PANTS",
+    "name": "pants",
+    "slot": "bottom",
+    "garment_type": "pants",
+    "default_style": "LONG",
+    "default_primary_color_hex": "#5A6B7A"
+  },
+
+  "SHORTS": {
+    "id": 9,
+    "vocab": "SHORTS",
+    "name": "shorts",
+    "slot": "bottom",
+    "garment_type": "pants",
+    "default_style": "SHORTS",
+    "default_primary_color_hex": "#B8B6B0"
+  },
+
+  "BOOTYSHORTS": {
+    "id": 10,
+    "vocab": "BOOTYSHORTS",
+    "name": "booty shorts",
+    "slot": "bottom",
+    "garment_type": "pants",
+    "default_style": "MINI",
+    "default_primary_color_hex": "#8E3F3A"
+  },
+
+  "LEOTARD": {
+    "id": 11,
+    "vocab": "LEOTARD",
+    "name": "leotard",
+    "slot": "onepiece",
+    "garment_type": "leotard",
+    "default_style": "SLEEVELESS",
+    "default_primary_color_hex": "#4A4A4A"
+  },
+
+  "COMBATBOOTS": {
+    "id": 12,
+    "vocab": "COMBATBOOTS",
+    "name": "combat boots",
+    "slot": "footwear",
+    "garment_type": "boots",
+    "default_style": "MID",
+    "default_primary_color_hex": "#4A4A4A"
+  },
+
+  "DRESS_SHIRT": {
+    "id": 14,
+    "vocab": "DRESS_SHIRT",
+    "name": "collared shirt",
+    "slot": "top",
+    "garment_type": "shirt",
+    "default_style": "LONG_SLEEVE",
+    "default_primary_color_hex": "#B8B6B0"
+  },
+
+  "SNEAKERS": {
+    "id": 15,
+    "vocab": "SNEAKERS",
+    "name": "sneakers",
+    "slot": "footwear",
+    "garment_type": "shoes",
+    "default_style": "LOW",
+    "default_primary_color_hex": "#4A6FB4"
+  },
+
+  "FLATS": {
+    "id": 16,
+    "vocab": "FLATS",
+    "name": "flats",
+    "slot": "footwear",
+    "garment_type": "shoes",
+    "default_style": "LOW",
+    "default_primary_color_hex": "#4F7A76"
+  },
+
+  "UTILITYSUIT": {
+    "id": 17,
+    "vocab": "UTILITYSUIT",
+    "name": "utility suit",
+    "slot": "onepiece",
+    "garment_type": "coveralls",
+    "default_style": "LONG_SLEEVE",
+    "default_primary_color_hex": "#6E7A5F"
+  },
+
+  "FLIGHTSUIT": {
+    "id": 18,
+    "vocab": "FLIGHTSUIT",
+    "name": "flight suit",
+    "slot": "onepiece",
+    "garment_type": "coveralls",
+    "default_style": "LONG_SLEEVE",
+    "default_primary_color_hex": "#5A6B7A"
+  },
+
+  "LABCOAT": {
+    "id": 19,
+    "vocab": "LABCOAT",
+    "name": "lab coat",
+    "slot": "top",
+    "garment_type": "shirt",
+    "default_style": "LONG_SLEEVE",
+    "default_primary_color_hex": "#B8B6B0"
+  }
+}

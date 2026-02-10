@@ -1,0 +1,90 @@
+{
+  "shirt": {
+    "slot": "top",
+    "zipper_state": "na",
+    "zipper_exposed": false,
+    "allowed_styles_override": [
+      "CREW", "NORMAL", "V_CUT", "SCOOP",
+      "SLEEVELESS", "SHORT_SLEEVE", "LONG_SLEEVE"
+    ]
+  },
+
+  "pants": {
+    "slot": "bottom",
+    "zipper_state": "na",
+    "zipper_exposed": false,
+    "allowed_styles_override": [
+      "SHORTS", "MINI", "MIDI", "MAXI"
+    ]
+  },
+
+  "skirt": {
+    "slot": "bottom",
+    "zipper_state": "closed",
+    "zipper_exposed": false,
+    "allowed_styles_override": [
+      "MINI", "MIDI", "MAXI"
+    ]
+  },
+
+  "dress": {
+    "slot": "onepiece",
+    "zipper_state": "closed",
+    "zipper_exposed": false,
+    "allowed_styles_override": [
+      "MINI", "MIDI", "MAXI",
+      "SLEEVELESS", "SHORT_SLEEVE", "LONG_SLEEVE",
+      "NORMAL", "V_CUT", "SCOOP"
+    ]
+  },
+
+  "shoes": {
+    "slot": "footwear",
+    "zipper_state": "na",
+    "zipper_exposed": false,
+    "allowed_styles_override": [
+      "LOW"
+    ]
+  },
+
+  "boots": {
+    "slot": "footwear",
+    "zipper_state": "na",
+    "zipper_exposed": false,
+    "allowed_styles_override": [
+      "MID",
+      "TALL"
+    ]
+  },
+
+  "coveralls": {
+    "slot": "onepiece",
+    "zipper_state": "closed",
+    "zipper_exposed": false,
+    "allowed_styles_override": [
+      "LONG_SLEEVE", "SHORT_SLEEVE",
+      "NORMAL", "CREW"
+    ]
+  },
+
+  "catsuit": {
+    "slot": "onepiece",
+    "zipper_state": "closed",
+    "zipper_exposed": false,
+    "allowed_styles_override": [
+      "SLEEVELESS", "SHORT_SLEEVE", "LONG_SLEEVE",
+      "CREW", "SCOOP", "V_CUT"
+    ]
+  },
+
+  "leotard": {
+    "slot": "onepiece",
+    "default_coverage": [0,0,0,1,1,1,0,0,0],
+    "zipper_state": "closed",
+    "zipper_exposed": false,
+    "allowed_styles_override": [
+      "SLEEVELESS", "SHORT_SLEEVE", "LONG_SLEEVE",
+      "CREW", "SCOOP", "V_CUT"
+    ]
+  }
+}

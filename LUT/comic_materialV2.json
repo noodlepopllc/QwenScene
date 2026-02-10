@@ -1,0 +1,22 @@
+{
+  "rgb:darkNeutral":        [74, 74, 74],
+  "rgb:midNeutral":         [184, 182, 176],
+  "rgb:mutedBrown":         [138, 106, 79],
+  "rgb:brickRed":           [142, 63, 58],
+  "rgb:slateBlue":          [90, 107, 122],
+  "rgb:mutedTeal":          [79, 122, 118],
+  "rgb:desaturatedGreen":   [110, 122, 95],
+  "rgb:mutedBlue":          [74, 111, 180],
+
+  "rgb:black":              [74, 74, 74],      
+  "rgb:white":              [184, 182, 176],    
+  "rgb:gray":               [184, 182, 176],   
+  "rgb:brown":              [138, 106, 79],     
+
+  "rgb:red":                [142, 63, 58],      
+  "rgb:pink":               [79, 122, 118],     
+  "rgb:orange":             [138, 106, 79],     
+  "rgb:yellow":             [184, 182, 176],   
+  "rgb:green":              [110, 122, 95],    
+  "rgb:blue":               [74, 111, 180]     
+}
