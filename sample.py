@@ -117,7 +117,7 @@ if __name__ == '__main__':
     print('#'*5,'BEDROOM 6','#'*5)
     char2_action = "Jade is reclining under the mutedBrown blanket, she is looking at her phone, focused expression on her face"
     char2 = describe_char(record_jade, char2_action,'shoulders_up')
-    print(BedRight(char1,'',DEFAULT_STYLE))
+    print(BedRight(char2,'',DEFAULT_STYLE))
 
     print('#'*5,'BEDROOM 7','#'*5)
     char1_action = "Chaos is reclining under the mutedBrown blanket, absorbed in her book, smiling softly."
