@@ -32,3 +32,7 @@ class CharacterRecord:
         ))
 
 
+    def change_clothing(self, clothing):
+        self.clothing_description = translate_clothing(clothing)
+
+
