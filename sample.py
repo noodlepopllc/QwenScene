@@ -1,10 +1,15 @@
-
 import sys
 sys.path.append('qwenscene')
 from character_record import CharacterRecord
 from color_translators import translate_hairskin, translate_clothing
 from location import LocationColorProfile, LocationLightingProfile, Location
 
+def describe_char(char, action, shot):
+    return (
+        f'{char.name.capitalize()} is {char.character_description} {char.describe_clothing_for_shot(shot)}. ' 
+        f'{action} \n'
+    )
+        
 def Bedroom(char1, char2, style):
     lighting = LocationLightingProfile("soft diffused", "a large window", "neutral")
     color = LocationColorProfile("mutedBrown (#8A6A4F) wooden floor", "lightNeutral (#E8E4DA) walls", "mutedBlue: (#4A6FB4) pillows and window curtains")
@@ -12,11 +17,8 @@ def Bedroom(char1, char2, style):
      "with a large window on the left wall", lighting, color)
     location.add_detail('A king sized bed is against the left wall under the window its headboard is against the back wall')
     location.add_detail('To the right and left of the headboard are small empty nightstands with nothing on top of them')
-    return (f'{style}, \n {location.describe()} \n {char1.name.capitalize()} is {char1.character_description} {char1.describe_clothing_for_shot("mid_torso_up")}.' 
-        f'Chaos is laying under a mutedBrown (#8A6A4F) blanket in bed while reading a book, she looks very into the book and is smiling contently. \n'
-        f'{char2.name.capitalize()} is {char2.character_description} {char2.describe_clothing_for_shot("mid_torso_up")}.'
-        f'Her friend Jade is laying next to her under the same blanket looking at her cell phone with a bored expression.')
-
+    return (f'{style}, \n {location.describe()} \n '
+        f'{char1}{char2}')
 
 def Office(char1, char2, style):
     lighting = LocationLightingProfile("soft diffused", "a large glass exterior wall", "neutral")
@@ -27,9 +29,8 @@ def Office(char1, char2, style):
      "the desk faces forward, is on the left side continues out of the frame on the left side")
     location.add_detail("A laptop is on top of the desk on the left side, with the back facing forward")
     location.add_detail("To the right of the desk is a 3 foot wide aisle allowing room to get behind the desk.")
-
-    return f'{style}, \n {location.describe()} \n {char1.name.capitalize()} is {char1.character_description} {char1.describe_clothing_for_shot("mid_torso_up")}. Chaos sits behind the desk working on the laptop, she is laughing like she just heard a very funny joke. \n {char2.name} is {char2.character_description} {char2.describe_clothing_for_shot("full_body")}. Jade stands over her looking at her screen, she is smiling with a joyous expression.'
-
+    return (f'{style}, \n {location.describe()} \n '
+        f'{char1}{char2}')
 
 if __name__ == '__main__':
     from json import load
@@ -52,6 +53,14 @@ if __name__ == '__main__':
         "medium shot framing"
     )
     print('#'*5,'OFFICE','#'*5)
-    print(Office(record_chaos, record_jade, DEFAULT_STYLE))
+    char1_action = "Chaos sits behind the desk working on the laptop, she is laughing like she just heard a very funny joke." 
+    char1 = describe_char(record_chaos, char1_action, "mid_torso_up")
+    char2_action = 'Jade stands over her looking at her screen, she is smiling with a joyous expression.'
+    char2 = describe_char(record_jade, char2_action, "full_body")
+    print(Office(char1, char2, DEFAULT_STYLE))
     print('#'*5,'BEDROOM','#'*5)
-    print(Bedroom(record_chaos, record_jade, DEFAULT_STYLE))
+    char1_action = 'Chaos is laying under a mutedBrown (#8A6A4F) blanket in bed while reading a book, she looks very into the book and is smiling contently.'
+    char1 = describe_char(record_chaos, char1_action, 'mid_torso_up') 
+    char2_action = 'Her friend Jade is laying next to her under the same blanket looking at her cell phone with a bored expression.'
+    char2 = describe_char(record_jade, char2_action, 'full_body')
+    print(Bedroom(char1, char2, DEFAULT_STYLE))
