@@ -7,4 +7,4 @@ uv run qwenscene/character_builder.py
 - This will create a characters.json file
 
 uv run sample.py
-- this will output a descriptions
+- this will output descriptions
