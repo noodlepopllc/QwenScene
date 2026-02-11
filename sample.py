@@ -10,26 +10,31 @@ def describe_char(char, action, shot):
         f'{action}'
     )
 def BedLeft(char1, char2, style):
-    lighting = LocationLightingProfile("sunny lighting", "left", "neutral")
+    #lighting = LocationLightingProfile("sunny lighting", "left", "neutral")
+    lighting = LocationLightingProfile("diffuse soft lighting", "lamps", "warm")
     color = LocationColorProfile("mutedBrown (#8A6A4F) headboard and blanket", "lightNeutral (#E8E4DA) empty back wall", "mutedBlue: (#4A6FB4) pillows)")
     location = Location("A king size bed", "A king size bed on the left side of the room, the right edge continues out of the frame on the right side with mutedBrown blanket lightNeutral under side, 4 mutedBlue pillows",lighting,color)
     return (f'{style} {char1} {char2} {location.describe()} ')
 
 def BedRight(char1, char2, style):
-    lighting = LocationLightingProfile("sunny lighting", "left", "neutral")
+    #lighting = LocationLightingProfile("sunny lighting", "left", "neutral")
+    lighting = LocationLightingProfile("diffuse soft lighting", "lamps", "warm")
     color = LocationColorProfile("mutedBrown (#8A6A4F) headboard and blanket", "lightNeutral (#E8E4DA) empty back wall", "mutedBlue: (#4A6FB4) pillows)")
     location = Location("A king size bed", "A king size bed on the left side of the room, the left edge continues out of the frame on the left side with mutedBrown blanket lightNeutral under side, 4 mutedBlue pillows",lighting,color)
     return (f'{style} {char1} {char2} {location.describe()} ')
 
 def Bed(char1, char2, style):
-    lighting = LocationLightingProfile("sunny lighting", "left", "neutral")
+    #lighting = LocationLightingProfile("sunny lighting", "left", "neutral")
+    lighting = LocationLightingProfile("diffuse soft lighting", "lamps", "warm")
     color = LocationColorProfile("mutedBrown (#8A6A4F) headboard and blanket", "lightNeutral (#E8E4DA) empty back wall", "mutedBlue: (#4A6FB4) pillows)")
-    location = Location("A king size bed", "A king size bed with mutedBrown blanket lightNeutral under side, 4 mutedBlue pillows",lighting,color)
+    location = Location("A king size bed", "A king size bed on left side of the room, with mutedBrown blanket lightNeutral under side, 4 mutedBlue pillows",lighting,color)
     return (f'{style} {char1} {char2} {location.describe()} ')
 
 def Bedroom(char1, char2, style):
-    lighting = LocationLightingProfile("sunny lighting", "a large sliding glass door on the left side", "neutral")
+    #lighting = LocationLightingProfile("sunny lighting", "a large sliding glass door on the left side", "neutral")
+    lighting = LocationLightingProfile("diffuse soft lighting", "lamps", "warm")
     color = LocationColorProfile("mutedBrown (#8A6A4F) wooden floor", "lightNeutral (#E8E4DA) walls", "mutedBlue: (#4A6FB4) pillows and curtains")
+    lighting = LocationLightingProfile("diffuse soft lighting", "lamps", "warm")
     location = Location("Bedroom", "a large master bedroom in a luxurious apartment "
      "with a large sliding glass door on the left wall", lighting, color)
     location.add_detail(("a wide private balcony directly accessed through the sliding glass door, " 
@@ -39,8 +44,18 @@ def Bedroom(char1, char2, style):
     location.add_detail('Either side of the headboard are small nightstands with simple matching minimalist slender‑stem bedside lamps with lightNeutral (#E8E4DA) lamp shades')
     return (f'{style} {char1} {char2} {location.describe()} ')
 
+def Kitchen(char1, char2, style):
+    lighting = LocationLightingProfile("diffuse soft lighting", "overhead lights", "warm")
+    color = LocationColorProfile("mutedBrown (#8A6A4F) wooden floor", "lightNeutral (#E8E4DA) walls", "mutedBlue (#4A6FB4) stools")
+    location = Location("Kitchen", "a modern kitchen ", lighting, color)
+    location.add_detail("a large lightNeutral (#E8E4DA) counter with two mutedBlue: (#4A6FB4) stools")
+    location.add_detail("in the center of the counter is a large sink")
+    location.add_detail("to the right is a sliding glass door leading to a small driveway")
+    return (f'{style} {char1} {char2} {location.describe()}')
+
 def Office(char1, char2, style):
-    lighting = LocationLightingProfile("soft diffused", "a large glass exterior wall", "neutral")
+    #lighting = LocationLightingProfile("soft diffused", "a large glass exterior wall", "neutral")
+    lighting = LocationLightingProfile("soft diffused", "overhead lights", "neutral")
     color = LocationColorProfile("desaturatedGreen (#6E7A5F) trees and grass","midNeutral (#B8B6B0) carpeted floor","mutedBrown (#8A6A4F) flat composite wooden desk")
     location = Location("office", "a large office space inside of a large corporate building on the upper floor,"
      "with a back glass wall overlooking a city park", lighting, color)
@@ -59,32 +74,107 @@ def portrait(char, action):
 
 
 if __name__ == '__main__':
-    from json import load
-    # Load Chaos
-    with open('characters.json', 'r') as r:
-        crec = load(r)
+    from character_builder import CharacterIdentity, CharacterRegistry
+    from identity_arbitrator import IdentityArbitrator
+    from fuzzer_minimal import generate_outfit_sentence
+
+    shawn = CharacterIdentity(
+        height="tall",
+        ethnicity="south_asian",
+        gender="masculine",
+        age="adult",
+        body_type="fit",
+        skin_tone="light",
+        hair_color="black",
+        contrast="LOW",
+        mode='random',
+        seed=127
+    )
+
+    chaos = CharacterIdentity(
+        height="average",
+        ethnicity="east_asian",
+        gender="feminine",
+        age="young_adult",
+        body_type="fit",
+        skin_tone="light",
+        hair_color="blonde",
+        contrast="LOW",
+        mode='random',
+        seed=42
+    )
+
+    jade = CharacterIdentity(
+        height="average",
+        ethnicity="east_asian",
+        gender="feminine",
+        age="young_adult",
+        body_type="fit",
+        skin_tone="light",
+        hair_color="black",
+        contrast="LOW",
+        mode='random',
+        seed=99
+    )
+
+    registry = CharacterRegistry()
+    registry.add(
+        name="chaos",
+        character_identity=chaos,
+        clothing_description=generate_outfit_sentence(body_type=chaos.body_type, gender=chaos.gender, theme="professional", seed=chaos.seed)[0]
+    )
+    registry.add(
+        name="Jade",
+        character_identity=jade,
+        clothing_description=generate_outfit_sentence(body_type=jade.body_type, gender=jade.gender, theme="professional", seed=jade.seed)[0]
+    )
+    registry.add(
+        name="Shawn",
+        character_identity=shawn,
+        clothing_description=generate_outfit_sentence(body_type=shawn.body_type, gender=shawn.gender, theme="professional", seed=shawn.seed)[0]
+        )
+
+    # 🔹 Apply arbitration before export
+    arbitrator = IdentityArbitrator()
+    registry = arbitrator.apply(registry)
+
+    output = registry.export()
 
     record_chaos = CharacterRecord.from_json(
-        [x for x in crec['characters'] if x['name'] == 'chaos'][0]
+        [x for x in output['characters'] if x['name'] == 'chaos'][0]
     )
 
     record_jade = CharacterRecord.from_json(
-        [x for x in crec['characters'] if x['name'] == 'Jade'][0]
+        [x for x in output['characters'] if x['name'] == 'Jade'][0]
+    )
+
+    record_shawn = CharacterRecord.from_json(
+        [x for x in output['characters'] if x['name'] == 'Shawn'][0]
     )
     DEFAULT_STYLE = (
         "9:16 vertical composition, professional interior photography")
     DEFAULT_STYLE = (
         "9:16 vertical composition, 1980s American comic‑book illustration style with flat cel‑shaded lighting, "
-        "bold ink outlines, minimal surface gradients, fixed garment colors with no palette harmonization, daytime "
-        #"close up shot framing"
+        "bold ink outlines, minimal surface gradients, fixed garment colors with no palette harmonization, "
+        "night time "
         "medium shot framing "
     )
+    #DEFAULT_STYLE = ("night time, medium shot framing ")
     #DEFAULT_STYLE = ''
-    print('#'*5,'OFFICE','#'*5)
+    print('#'*5,'OFFICE 1','#'*5)
+    record_chaos.change_clothing("she is wearing an orange v_cut midi dress with black flats")
     char1_action = "Chaos sits behind the desk working on the laptop, she is laughing like she just heard a very funny joke." 
-    char1 = describe_char(record_chaos, char1_action, "mid_torso_up")
+    char1 = describe_char(record_chaos, char1_action, "torso_and_feet")
     char2_action = 'Jade stands over her looking at her screen, she is smiling with a joyous expression.'
     char2 = describe_char(record_jade, char2_action, "full_body")
+    print(Office(char1, char2, DEFAULT_STYLE))
+
+    print('#'*5,'OFFICE 2','#'*5)
+    record_shawn.change_clothing("he is wearing a red longsleeve dress_shirt, black pants and boots")
+    char1_action = "Chaos sits behind the desk working on the laptop, she looks very uncomfortable, frowning and trying to avoid eye contact." 
+    char1 = describe_char(record_chaos, char1_action, "torso_and_feet")
+    char2_action = 'Shawn stands over Chaos, he appears to be flirting, laughing at some joke he made.'
+    char2 = describe_char(record_shawn, char2_action, "full_body")
     print(Office(char1, char2, DEFAULT_STYLE))
     
     print('#'*5,'BEDROOM 1','#'*5)
@@ -92,7 +182,7 @@ if __name__ == '__main__':
 
     print('#'*5,'BEDROOM 2','#'*5)
     record_chaos.change_clothing('she is wearing a nightshirt')
-    char1_action = "Chaos is reclining under the mutedBrown blanket, absorbed in her book, smiling softly."
+    char1_action = "Chaos is reclining against pillows in front of the headboard under the mutedBrown blanket, absorbed in her book, smiling softly."
     char1 = describe_char(record_chaos, char1_action, 'shoulders_up')
     print(BedLeft(char1, '', DEFAULT_STYLE))
     
@@ -120,9 +210,24 @@ if __name__ == '__main__':
     print(BedRight(char2,'',DEFAULT_STYLE))
 
     print('#'*5,'BEDROOM 7','#'*5)
-    char1_action = "Chaos is reclining under the mutedBrown blanket, absorbed in her book, smiling softly."
+    char1_action = "Chaos is reclining against pillows in front of the headboard under the mutedBrown blanket, absorbed in her book, smiling softly."
     char1 = describe_char(record_chaos, char1_action, 'shoulders_up')
     print(Bed(char1, char2, DEFAULT_STYLE))
 
+    print('#'*5,'BEDROOM 8','#'*5)
+    print(BedRight(char1,char2,DEFAULT_STYLE))
+
+    print('#'*5,'BEDROOM 9','#'*5)
+    print(BedLeft(char1,char2,DEFAULT_STYLE))
+
+    print('#'*5,'Kitchen 1','#'*5)
+    record_jade.change_clothing('she is wearing an unzipped red catsuit')
+    record_chaos.change_clothing('she is wearing a halfzipped black v_cut leotard')
+    char1_action = 'Chaos is pouring a cup of coffee at the counter'
+    char1 = describe_char(record_chaos, char1_action, 'mid_torso_up')
+
+    char2_action = 'Jade is sitting at the counter happily enjoying her coffee.'
+    char2 = describe_char(record_jade, char2_action, 'full_body')
+    print(Kitchen(char1, char2, DEFAULT_STYLE))
 
 

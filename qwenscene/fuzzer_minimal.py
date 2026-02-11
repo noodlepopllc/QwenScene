@@ -17,7 +17,7 @@ COLOR_PALETTES = {
     "HIGH":   ["red", "pink", "orange", "yellow", "green", "blue"]
 }
 
-TOPS = ["tshirt", "dress shirt"]
+TOPS = ["tshirt", "dress_shirt"]
 BOTTOMS = ["skirt", "shorts", "pants"]
 ONEPIECES = ["catsuit", "dress", "camisole", "nightshirt", "utilitysuit"]
 FOOTWEAR = ["boots", "sneakers", "flats"]
@@ -71,7 +71,7 @@ def filter_by_theme(garments, theme):
     if theme == "casual":
         return garments
     if theme == "athletic":
-        return [g for g in garments if g not in ["dress shirt","dress", "skirt"]]
+        return [g for g in garments if g not in ["dress_shirt","dress", "skirt"]]
     return garments
 
 

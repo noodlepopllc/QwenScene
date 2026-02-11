@@ -302,13 +302,11 @@ if __name__ == '__main__':
         name="chaos",
         character_identity=chaos,
         clothing_description=generate_outfit_sentence(body_type=chaos.body_type, gender=chaos.gender, theme="professional", seed=chaos.seed)[0]
-        #clothing_description="red dress with tall black boots"
     )
     registry.add(
         name="Jade",
         character_identity=jade,
         clothing_description=generate_outfit_sentence(body_type=jade.body_type, gender=jade.gender, theme="professional", seed=jade.seed)[0]
-        #clothing_description="white cotton labcoat, black cotton pants, black leather flats"
     )
 
     # 🔹 Apply arbitration before export
