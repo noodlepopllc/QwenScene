@@ -1,0 +1,9 @@
+[project]
+name = "prompter"
+version = "1.0.0"
+description = "runs prompts"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    'ollama'
+]

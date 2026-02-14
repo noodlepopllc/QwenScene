@@ -2,12 +2,18 @@
 from character_outfit import describe_character_outfit
 
 class LocationColorProfile:
-    def __init__(self, dominant_60, supporting_30, accent_10):
+    def __init__(self, dominant_60, supporting_30, accent_10=None):
         self.dominant_60 = dominant_60
         self.supporting_30 = supporting_30
         self.accent_10 = accent_10
 
     def describe(self):
+        if self.accent_10 is None:
+            return (
+                f"50% {self.dominant_60}, "
+                f"50% {self.supporting_30} "
+            )
+
         return (
             f"60% {self.dominant_60}, "
             f"30% {self.supporting_30}, "
@@ -43,8 +49,10 @@ class Location:
         description = []
         description.append(self.name)
         description.append(self.description)
-        description.append(self.lighting.describe())
-        description.append(self.color.describe())
+        if self.lighting:
+            description.append(self.lighting.describe())
+        if self.color:
+            description.append(self.color.describe())
         description.extend(self.details)
         return ', '.join(description)
 

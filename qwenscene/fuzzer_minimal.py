@@ -2,34 +2,59 @@ import random
 
 PRONOUNS = ["she", "he", "they"]
 
-MATERIAL_WEIGHTS = {
-    "cotton": 4,
-    "fabric": 3,
-    "denim": 2,
-    "canvas": 2,
-    "leather": 1,
-    "synthetic": 1
-}
-
 COLOR_PALETTES = {
     "LOW":    ["black", "white", "gray", "brown"],
     "MEDIUM": ["black", "white", "gray", "brown", "blue", "green"],
     "HIGH":   ["red", "pink", "orange", "yellow", "green", "blue"]
 }
 
-TOPS = ["tshirt", "dress_shirt"]
+COLOR_HARMONY_SETS = {
+    "monochrome_blue": ["navy", "blue", "lightblue"],
+    "monochrome_gray": ["black", "gray", "white"],
+    "analogous_warm": ["red", "orange", "yellow"],
+    "analogous_cool": ["blue", "green", "teal"],
+    "complementary_red": ["red", "green", "white"],
+    "complementary_blue": ["blue", "orange", "white"],
+    "triadic_primary": ["red", "blue", "yellow"],
+    "triadic_secondary": ["orange", "green", "purple"]
+}
+
+
+TOPS = ["tshirt", "dress_shirt", "camisole","nightshirt"]
 BOTTOMS = ["skirt", "shorts", "pants"]
-ONEPIECES = ["catsuit", "dress", "camisole", "nightshirt", "utilitysuit"]
+ONEPIECES = ["catsuit", "dress", "utilitysuit"]
 FOOTWEAR = ["boots", "sneakers", "flats"]
 
 ALL_GARMENTS = TOPS + BOTTOMS + ONEPIECES + FOOTWEAR
 
+INDEX_MAP = {
+    "top": 0,
+    "bottom": 1,
+    "footwear": 2,
+    "onepiece": 0
+}
+
+
+def choose_harmony_set(rng):
+    key = rng.choice(list(COLOR_HARMONY_SETS.keys()))
+    return COLOR_HARMONY_SETS[key]
+
+def assign_color(garment, harmony, index_map):
+    if garment in TOPS:
+        return harmony[index_map["top"] % len(harmony)]
+    if garment in BOTTOMS:
+        return harmony[index_map["bottom"] % len(harmony)]
+    if garment in FOOTWEAR:
+        return harmony[index_map["footwear"] % len(harmony)]
+    if garment in ONEPIECES:
+        return harmony[index_map["onepiece"] % len(harmony)]
+    return harmony[0]
 
 # -----------------------------
 # Utility
 # -----------------------------
 def surface(token: str) -> str:
-    return token.lower().replace("_", " ")
+    return token.lower()
 
 
 def weighted_choice(weight_map, rng):
@@ -49,29 +74,29 @@ def choose_color(contrast, rng):
 # -----------------------------
 def filter_by_gender(garments, gender):
     if gender == "masculine":
-        return [g for g in garments if g not in ["skirt", "dress", "camisole"]]
+        return [g for g in garments if g not in ["flats","catsuit","nightshirt","skirt", "dress", "camisole"]]
     if gender == "feminine":
         return garments
     return garments  # neutral
 
 
 def filter_by_body_type(garments, body_type):
-    if body_type == "fit":
+    if body_type == "fit" or body_type == "athletic":
         return [g for g in garments if g != "catsuit"]
-    if body_type == "slim":
+    if body_type == "thin":
         return garments
-    if body_type == "curvy":
+    if body_type == "soft":
         return [g for g in garments if g not in ["shorts"]]
     return garments
 
 
 def filter_by_theme(garments, theme):
     if theme == "professional":
-        return [g for g in garments if g not in ["camisole", "nightshirt", "shorts"]]
+        return [g for g in garments if g not in ["tshirt","sneakers","catsuit","camisole", "nightshirt", "shorts"]]
     if theme == "casual":
         return garments
     if theme == "athletic":
-        return [g for g in garments if g not in ["dress_shirt","dress", "skirt"]]
+        return [g for g in garments if g in ["sneakers","shorts","pants","tshirt"]]
     return garments
 
 
@@ -116,6 +141,8 @@ def choose_slot_safe_garments(
 
         return garments, used_silhouettes
 
+    onepieces = []
+
     # 2. Top + bottom + footwear path
     if rng.random() < 0.95 and tops:
         candidates = [t for t in tops if t not in used_silhouettes] or tops
@@ -149,16 +176,18 @@ def choose_slot_safe_garments(
 def garment_phrase(garment, contrast, rng):
     parts = []
 
-    #if rng.random() < 0.4:
-    #    parts.append(surface(weighted_choice(MATERIAL_WEIGHTS, rng)))
+    #if rng.random() < 0.7:
+    #    parts.append(surface(choose_color(contrast, rng)))
 
-    if rng.random() < 0.7:
-        parts.append(surface(choose_color(contrast, rng)))
+    global harmony
+    color = assign_color(garment, harmony, INDEX_MAP)
+    parts.append(color)
+
 
     parts.append(surface(garment))
     return " ".join(parts)
 
-
+global harmony
 # -----------------------------
 # Final outfit sentence
 # -----------------------------
@@ -172,6 +201,9 @@ def generate_outfit_sentence(
     seed=None
 ):
     rng = random.Random(seed) if seed is not None else random
+    global harmony
+    harmony = choose_harmony_set(rng)
+    random.shuffle(harmony)
 
     garments, used_silhouettes = choose_slot_safe_garments(
         body_type=body_type,

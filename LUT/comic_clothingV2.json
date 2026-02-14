@@ -43,7 +43,7 @@
   "CATSUIT": {
     "id": 5,
     "vocab": "CATSUIT",
-    "name": "catsuit",
+    "name": "stretch fabric catsuit",
     "slot": "onepiece",
     "garment_type": "catsuit",
     "default_style": "LONG_SLEEVE",
@@ -63,7 +63,7 @@
   "CAMISOLE": {
     "id": 7,
     "vocab": "CAMISOLE",
-    "name": "camisole",
+    "name": "camisole with spaghetti straps",
     "slot": "top",
     "garment_type": "shirt",
     "default_style": "SLEEVELESS",
@@ -93,7 +93,7 @@
   "BOOTYSHORTS": {
     "id": 10,
     "vocab": "BOOTYSHORTS",
-    "name": "booty shorts",
+    "name": "spandex booty shorts",
     "slot": "bottom",
     "garment_type": "pants",
     "default_style": "MINI",
@@ -103,7 +103,7 @@
   "LEOTARD": {
     "id": 11,
     "vocab": "LEOTARD",
-    "name": "leotard",
+    "name": "stretch fabric leotard",
     "slot": "onepiece",
     "garment_type": "leotard",
     "default_style": "SLEEVELESS",
@@ -153,7 +153,7 @@
   "UTILITYSUIT": {
     "id": 17,
     "vocab": "UTILITYSUIT",
-    "name": "utility suit",
+    "name": "utility suit (not a uniform, civilian workwear, color must stay exactly COLOR)",
     "slot": "onepiece",
     "garment_type": "coveralls",
     "default_style": "LONG_SLEEVE",
@@ -173,7 +173,7 @@
   "LABCOAT": {
     "id": 19,
     "vocab": "LABCOAT",
-    "name": "lab coat",
+    "name": "buttoned labcoat (single-layer garment, no undershirt, no inner layers, no additional clothing beneath it)",
     "slot": "top",
     "garment_type": "shirt",
     "default_style": "LONG_SLEEVE",

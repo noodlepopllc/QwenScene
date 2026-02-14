@@ -202,6 +202,7 @@ class ClothingParser:
         garment = self.make_garment(parsed["garment"])
 
         default_style = garment.style_tokens[0] if len(garment.style_tokens) > 0 else None
+        garment.style_tokens = []
         default_zone = None
         if default_style:
             default_zone = get_zone(default_style)
@@ -228,6 +229,8 @@ class ClothingParser:
         if M in self.modifiers["SILHOUETTE"]:
             mask = self.modifiers["SILHOUETTE"][M]["coverage"]
             garment.coverage = garment._merge(garment.coverage, mask)
+            if M not in garment.style_tokens:
+                garment.style_tokens.append(M)
 
         if M in self.modifiers["NECKLINES"]:
             mask = self.modifiers["NECKLINES"][M]["coverage"]
@@ -274,9 +277,19 @@ class ClothingParser:
         if garment.pattern != "solid":
             parts.append(garment.pattern)
 
-        if garment.zipper_state != 'na':
+        if len(garment.decorators) > 0:
+            parts.append(garment.decorators[0].lower())
+
+        if garment.zipper_state != 'na' and (garment.zipper_exposed == True or garment.zipper_state != 'closed'):
             parts.append(garment.zipper_state)
             parts.append('exposed zipper' if garment.zipper_exposed else '')
+        
+        # sleeve style (tops + onepiece only)
+        if garment.slot in ("top"):
+            for s in garment.style_tokens:
+                if s in ("CROPPED"):
+                    parts.append(s.lower().replace("_", " "))
+                    break
 
         # sleeve style (tops + onepiece only)
         if garment.slot in ("top", "onepiece"):
@@ -310,8 +323,8 @@ class ClothingParser:
 
 if __name__ == '__main__':
     parser = ClothingParser()
-    clothing = "she is wearing a red plaid silk scoop dress with brown synthetic flats"
+    clothing = "she is wearing a mini sleeveless scoop tattered dress with brown synthetic flats"
     output = parser.parse(clothing)
     print(clothing)
     print(output['garments'][0])
-    print(output['garments'][1])
+    #print(output['garments'])

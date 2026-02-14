@@ -102,6 +102,19 @@
             "hairTexture": {
                 "allowed": ["straight", "coarse-straight"],
                 "default": "straight"
+            },
+            "hairSilhouette": {
+                "allowed": [
+                    "straight shoulder-length",
+                    "blunt bob",
+                    "soft bob",
+                    "low ponytail",
+                    "tight bun",
+                    "short",
+                    "undercut",
+                    "buzzed"
+                ],
+                "default": "straight shoulder-length"
             }
         },
 
@@ -125,6 +138,18 @@
             "hairTexture": {
                 "allowed": ["straight", "wavy"],
                 "default": "wavy"
+            },
+            "hairSilhouette": {
+                "allowed": [
+                    "long straight",
+                    "long wavy",
+                    "mid-length layered",
+                    "low ponytail",
+                    "short",
+                    "undercut",
+                    "buzzed"
+                ],
+                "default": "long wavy"
             }
         },
 
@@ -148,6 +173,19 @@
             "hairTexture": {
                 "allowed": ["coily", "kinky-coily"],
                 "default": "coily"
+            },
+            "hairSilhouette": {
+                "allowed": [
+                    "short coils",
+                    "medium coils",
+                    "afro",
+                    "braided bun",
+                    "box braids",
+                    "short",
+                    "undercut",
+                    "buzzed"
+                ],
+                "default": "short coils"
             }
         },
 
@@ -171,6 +209,19 @@
             "hairTexture": {
                 "allowed": ["wavy", "curly"],
                 "default": "wavy"
+            },
+            "hairSilhouette": {
+                "allowed": [
+                    "long waves",
+                    "mid-length waves",
+                    "high ponytail",
+                    "low bun",
+                    "braided ponytail",
+                    "short",
+                    "undercut",
+                    "buzzed"
+                ],
+                "default": "long waves"
             }
         },
 
@@ -194,6 +245,19 @@
             "hairTexture": {
                 "allowed": ["straight", "wavy"],
                 "default": "straight"
+            },
+            "hairSilhouette": {
+                "allowed": [
+                    "shoulder-length waves",
+                    "long waves",
+                    "bobcut",
+                    "messy bun",
+                    "high ponytail",
+                    "short",
+                    "undercut",
+                    "buzzed"
+                ],
+                "default": "shoulder-length waves"
             }
         },
 
@@ -217,6 +281,19 @@
             "hairTexture": {
                 "allowed": ["wavy", "curly"],
                 "default": "wavy"
+            },
+            "hairSilhouette": {
+                "allowed": [
+                    "long waves",
+                    "deep waves",
+                    "low bun",
+                    "high ponytail",
+                    "mid-length layered",
+                    "short",
+                    "undercut",
+                    "buzzed"
+                ],
+                "default": "long waves"
             }
         },
 
@@ -240,7 +317,21 @@
             "hairTexture": {
                 "allowed": ["straight", "wavy"],
                 "default": "straight"
+            },
+            "hairSilhouette": {
+                "allowed": [
+                    "long straight",
+                    "long wavy",
+                    "mid-length layered",
+                    "low ponytail",
+                    "high ponytail",
+                    "short",
+                    "undercut",
+                    "buzzed"
+                ],
+                "default": "long straight"
             }
+
         }
     }
 }

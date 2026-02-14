@@ -1,9 +1,11 @@
-import copy
+import json, copy
+from pathlib import Path
 
 class IdentityArbitrator:
-    def __init__(self, variant_lut=None):
+    def __init__(self, variant_lut=None, lut_path="LUT"):
         # variant_lut lets you control how we "nudge" collisions
         # If None, we use simple hardcoded alternates.
+
         self.variant_lut = variant_lut or {
             "jawlineContour": ["soft", "oval", "angular", "square", "heart"],
             "cheekboneHeight": ["low", "mid", "high"],
@@ -28,6 +30,77 @@ class IdentityArbitrator:
             "hairTexture",
             "hairColor",
         ]
+        self.lut_path = Path(lut_path)
+
+        # Load ethnicity LUT (needed for silhouette allowed lists)
+        gender_ethnicity = self._load_json(self.lut_path / "gender_ethnicity.json")
+        self.ethnicity_lut = gender_ethnicity["ETHNICITY_DEFAULTS"]
+        self.hair_silhouette_lut = self._load_json(Path(lut_path) / "hair_silhouette.json")
+        self.gender_hair = self.hair_silhouette_lut['GENDER_HAIR']
+
+    def _load_json(self, path):
+        with open(path, "r") as f:
+            return json.load(f)
+        
+
+    def enforce_hair_silhouette_diversity(self, registry):
+        """
+        Ensures no two characters with the same (ethnicity, gender, age)
+        share the same hairSilhouette. If a collision occurs, pick a new
+        silhouette from the ethnicity's allowed list.
+        """
+
+        used = {}  # (ethnicity, gender, age) → set of silhouettes
+
+        for name, entry in registry.characters.items():
+            ident = entry["identity"]
+            eth = entry["ethnicity"]
+            gen = entry["gender"]
+            age = entry["age"]
+            gender_hair = self.hair_silhouette_lut['GENDER_HAIR'][gen]["silhouetteBias"]
+            hair_allowed = sorted(set(gender_hair) & set(self.ethnicity_lut[eth]["hairSilhouette"]["allowed"]))
+            silhouette = ident.get("hairSilhouette")
+            
+            if silhouette is None:
+                continue
+
+            key = (eth, gen, age)
+
+            # initialize bucket
+            if key not in used:
+                used[key] = {silhouette}
+                continue
+
+            # no conflict
+            if silhouette not in used[key]:
+                used[key].add(silhouette)
+                continue
+
+            # conflict → resolve
+            allowed = (
+                self.ethnicity_lut
+                .get(eth, {})
+                .get("hairSilhouette", {})
+                .get("allowed", [])
+            )
+
+            # try to find an unused silhouette
+            replacement = None
+            for alt in allowed:
+                if alt not in used[key]:
+                    replacement = alt
+                    break
+
+            # fallback: deterministic hash-based selection
+            if replacement is None and allowed:
+                idx = abs(hash(name)) % len(allowed)
+                replacement = allowed[idx]
+
+            # apply replacement if found
+            if replacement:
+                ident["hairSilhouette"] = replacement
+                used[key].add(replacement)
+
 
     def apply(self, registry):
         """
@@ -57,6 +130,8 @@ class IdentityArbitrator:
             # update signature map
             new_signature = self._signature(adjusted_identity)
             used_signatures[new_signature] = name
+        
+        self.enforce_hair_silhouette_diversity(registry)
 
         return registry
 
@@ -93,6 +168,7 @@ class IdentityArbitrator:
 
             # if we can't find a unique variant for this field, revert and move on
             identity[field] = current
+
 
         # if we somehow can't resolve, just return the last attempt
         return identity

@@ -46,5 +46,28 @@
     "mutedRed": "#B44A4A",
     "mutedBlue": "#4A6FB4",
     "mutedGreen": "#5A9A6A"
+  },
+
+  "material_safe": {
+    "flat wood-tone color":        "#8A6A4F",  
+    "flat brick-tone color":       "#8E3F3A",  
+    "flat stone-gray color":       "#7F8C96",  
+    "flat concrete-gray color":    "#B8B6B0",  
+    "flat metal-gray color":       "#4A4A4A",  
+    "flat leather-brown color":    "#8A6A4F",  
+    "flat canvas-cream color":     "#E8E4DA",  
+    "flat fabric-neutral color":   "#B8B6B0",  
+    "flat denim-blue color":       "#4A6FB4",  
+    "flat rubber-black color":     "#4A4A4A",  
+    "flat plastic-light color":    "#E8E4DA",  
+    "flat tile-tan color":         "#C9B08A",  
+    "flat sand-tan color":         "#C9B08A",  
+    "flat grass-green color":      "#6E7A5F",  
+    "flat foliage-green color":    "#5A9A6A",  
+    "flat accent-yellow color":    "#D1B85A",  
+    "flat accent-red color":       "#B44A4A",  
+    "flat accent-blue color":      "#4A6FB4",  
+    "flat accent-green color":     "#5A9A6A"   
   }
+
 }

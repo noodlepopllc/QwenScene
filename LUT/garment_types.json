@@ -5,7 +5,8 @@
     "zipper_exposed": false,
     "allowed_styles_override": [
       "CREW", "NORMAL", "V_CUT", "SCOOP",
-      "SLEEVELESS", "SHORT_SLEEVE", "LONG_SLEEVE"
+      "SLEEVELESS", "SHORT_SLEEVE", "LONG_SLEEVE",
+      "CROPPED"
     ]
   },
 

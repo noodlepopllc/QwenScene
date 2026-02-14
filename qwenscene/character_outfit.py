@@ -16,6 +16,18 @@ ZONE_NAMES = [
     "lower legs"     # 8
 ]
 
+# -------------------------
+# VIEW-DEPENDENT ZONE MASKS (new layer)
+# -------------------------
+
+VIEW_ZONE_MASKS = {
+    "front":  [0,1,2,3,4,5,6,7,8],  # all zones potentially visible
+    "back":   [0,1,2,    5,6,7,8],  # zones 3-4 (front torso) occluded
+    "side":   [0,1,2,3,4,5,6,7,8],  # simplified — could split left/right later
+}
+
+
+
 # Zone filters for different shot types or caller preferences
 ZONE_FILTERS = {
     "shoulders_up":    [0, 3],
@@ -75,19 +87,27 @@ def outfit_phrase(garments, visible_zones, zone_filter):
 # Exposed skin description
 # -------------------------
 
-def exposed_skin(skintone, coverage, visible_zones, garments):
+def exposed_skin(skintone, coverage, visible_zones, garments, view="front"):
+    """
+    visible_zones: from ZONE_FILTERS (framing — what's in shot)
+    view: camera angle — filters visible_zones further by occlusion
+    """
     tone = skintone
     has_footwear = any(g.slot == "footwear" for g in garments)
-
-    exposed = []
-
-    for i in visible_zones:
-        if coverage[i] == 0:
-            exposed.append(ZONE_NAMES[i])
-
+    
+    # 🔹 CRITICAL: Apply view-dependent occlusion mask
+    view_mask = VIEW_ZONE_MASKS.get(view, VIEW_ZONE_MASKS["front"])
+    actually_visible = [z for z in visible_zones if z in view_mask]
+    
+    exposed = [
+        ZONE_NAMES[i] 
+        for i in actually_visible 
+        if coverage[i] == 0
+    ]
+    
     if not exposed:
         return None
-
+    
     return f"{tone} skin visible on the {', '.join(exposed)}"
 
 
@@ -95,7 +115,8 @@ def exposed_skin(skintone, coverage, visible_zones, garments):
 # Final character + outfit description
 # -------------------------
 
-def describe_character_outfit(pronoun, sentence, zone_filter="full_body"):
+
+def describe_character_outfit(pronoun, sentence, zone_filter="full_body", view="front"):
     parser = ClothingParser()
     output = parser.parse(sentence)
     garments = output['garments']
@@ -104,7 +125,7 @@ def describe_character_outfit(pronoun, sentence, zone_filter="full_body"):
     coverage = merge_coverage(garments)
 
     clothing = outfit_phrase(garments, visible_zones, zone_filter)
-    skin = exposed_skin('bare', coverage, visible_zones, garments)
+    skin = exposed_skin('bare', coverage, visible_zones, garments, view=view)
 
     if skin:
         return f"{pronoun} is wearing {clothing} with {skin}"

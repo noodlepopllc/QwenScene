@@ -1,3 +1,4 @@
+import re
 
 def translate_hairskin(description):
     mapping = {
@@ -27,10 +28,19 @@ def translate_hairskin(description):
         "auburn": "red",
     }
 
-    tokens = description.split()
-    normalized = [mapping.get(t, t) for t in tokens]
-    return " ".join(normalized)
+    def normalize_token(token):
+        # capture leading/trailing punctuation
+        match = re.match(r"^([^\w\-]*)([\w\-]+)([^\w\-]*)$", token)
+        if not match:
+            return token
 
+        prefix, core, suffix = match.groups()
+        normalized_core = mapping.get(core, core)
+        return f"{prefix}{normalized_core}{suffix}"
+
+    tokens = description.split()
+    normalized = [normalize_token(t) for t in tokens]
+    return " ".join(normalized)
 
 def translate_clothing(clothing):
     a = clothing
@@ -44,4 +54,3 @@ def translate_clothing(clothing):
     a = a.replace("#4A6FB4", "mutedBlue (#4A6FB4)")
     clothing = a
     return clothing
-

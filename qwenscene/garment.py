@@ -9,7 +9,7 @@ STYLE_ZONE_MAP = [
 
 def get_zone(val):
     for zone in range(len(STYLE_ZONE_MAP)):
-        if val in STYLE_ZONE_MAP[zone]:
+        if val.upper() in STYLE_ZONE_MAP[zone]:
             return zone
 
 class Garment:

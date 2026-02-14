@@ -2,6 +2,21 @@ import json
 from pathlib import Path
 import random
 
+BODY_TYPE_VISUAL = {
+    "thin": "narrow shoulders, long slender torso, slim arms, narrow hips, slender legs",
+    "fit": "balanced shoulders, defined waist, visible arm tone, proportional hips, toned legs",
+    "athletic": "broad shoulders, muscular upper body, defined arms, medium hips, strong legs",
+    "soft": "rounded shoulders, soft torso, gentle waist definition, fuller hips, soft legs"
+}
+
+AGE_MORPHOLOGY_VISUAL = {
+    "youthful": "full cheeks, smooth luminous skin, minimal under‑eye definition",
+    "young_adult": "smooth skin with subtle definition around the eyes and cheeks",
+    "adult": "fine lines around the eyes and mouth, reduced cheek fullness",
+    "mature": "visible skin texture, deeper nasolabial folds, low soft‑tissue volume"
+}
+
+
 class CharacterIdentity:
     def __init__(
         self,
@@ -13,6 +28,7 @@ class CharacterIdentity:
         skin_tone,
         hair_color,
         hair_texture=None,
+        hair_silhouette=None,
         contrast="MEDIUM",
         overrides=None,
         lut_path="LUT",
@@ -28,6 +44,8 @@ class CharacterIdentity:
         self.skin_tone = skin_tone
         self.hair_color = hair_color
         self.hair_texture = hair_texture
+        self.hair_silhouette = hair_silhouette
+
         self.contrast = contrast
         self.overrides = overrides or {}
 
@@ -35,6 +53,10 @@ class CharacterIdentity:
         self.body_lut = self._load_json(Path(lut_path) / "body.json")
         self.gender_ethnicity_lut = self._load_json(Path(lut_path) / "gender_ethnicity.json")
         self.skin_hair_lut = self._load_json(Path(lut_path) / "skin_hair.json")
+        self.hair_silhouette_lut = self._load_json(Path(lut_path) / "hair_silhouette.json")
+        self.gender_hair = self.hair_silhouette_lut['GENDER_HAIR'][self.gender]
+        self.hair_description = self.hair_silhouette_lut["HAIR_DESCRIPTION"]
+
         self.contrast_lut = self._load_json(Path(lut_path) / "contrast.json")
 
         # unpack modules
@@ -47,6 +69,7 @@ class CharacterIdentity:
 
         self.skin_tone_data = self.skin_hair_lut["SKIN_TONE"]
         self.hair_color_data = self.skin_hair_lut["HAIR_COLOR"]
+        self.hair_silhouette_data = self.hair_silhouette_lut["HAIR_SILHOUETTE"]
         self.mode = mode
         self.seed = seed
         self.rng = random.Random(seed) if seed is not None else random
@@ -69,14 +92,27 @@ class CharacterIdentity:
             self.age_data.get(self.age, {}),
             self.body_data.get(self.body_type, {}),
         ]
-
+        eth = self.ethnicity_data.get(self.ethnicity, {})
         # hair texture from ethnicity unless overridden
         if self.hair_texture is None:
-            eth = self.ethnicity_data.get(self.ethnicity, {})
             if "hairTexture" in eth:
                 merged["hairTexture"] = eth["hairTexture"]["default"]
         else:
             merged["hairTexture"] = self.hair_texture
+
+        # hair silhouette selection
+        if self.hair_silhouette is None:
+            if "hairSilhouette" in eth:
+                if self.mode == "default":
+                    merged["hairSilhouette"] = eth["hairSilhouette"]["default"]
+                else:
+                    ethnic = set(eth["hairSilhouette"].get("allowed"))
+                    gender = set(self.gender_hair['silhouetteBias'])
+
+                    allowed = sorted(ethnic & gender)
+                    merged["hairSilhouette"] = self.rng.choice(allowed) if allowed else eth["hairSilhouette"]["default"]
+        else:
+            merged["hairSilhouette"] = self.hair_silhouette
 
         # skin tone semantic selection
         if self.skin_tone in self.skin_tone_data:
@@ -85,10 +121,14 @@ class CharacterIdentity:
         # hair color semantic selection
         if self.hair_color in self.hair_color_data:
             merged["hairColor"] = self.hair_color_data[self.hair_color][0]
+            
+        COMPOSITE_FIELDS = {"hairSilhouette"}
 
         # apply all LUT layers
         for layer in merge_order:
             for key, value in layer.items():
+                if key in COMPOSITE_FIELDS:
+                    continue
                 if isinstance(value, dict):
                     if self.mode == "default":
                         merged[key] = value.get("default")
@@ -101,8 +141,6 @@ class CharacterIdentity:
                 else:
                     merged[key] = value
 
-
-
         # apply overrides last
         for key, value in self.overrides.items():
             merged[key] = value
@@ -113,6 +151,78 @@ class CharacterIdentity:
                 merged[key] = value
 
         return merged
+
+    def describe_toon(self):
+        r = self.resolved
+        
+        # Format ethnicity for natural language (e.g., "black_african" → "Black African")
+        formatted_ethnicity = self.ethnicity.replace('_', ' ').title()
+        hair_token = r.get('hairSilhouette', '').replace(' ', '_').replace('-', '_').lower()
+
+        hair_description = self.hair_description.get(hair_token)
+        
+        return (
+            f"Flat-color anime illustration of a young adult feminine {formatted_ethnicity} individual. "
+            f"Facial structure: {r['jawlineContour']} jawline, {r['cheekboneHeight']} cheekbones, "
+            f"{r['eyeShape']} eyes (monolid, no sparkle), {r['noseBridgeShape']} nasal bridge, {r['noseTipShape']} nose tip. "
+            f"Contrast: {r.get('browDensity', 'None')} brows, {r.get('lashDefinition', 'None')} lashes. "
+            f"Skin: flat {r['skinTone']} color fill, zero gradients, matte finish. "
+            f"Hair: {hair_description} , {r['hairTexture']} texture, {r['hairColor']} color—"
+            f"dramatic shape, no strand detail, no glowing highlights. "
+            f"Body: slim, 7.5 heads tall, narrow shoulders, long legs, no muscle definition. "
+            f"Rendered in strict flat-color anime style: bold black outlines, solid fills only, "
+            f"no airbrushing, no cel-shading gradients, no specular reflections."
+        )
+
+    def describe_cartoon(self):
+        r = self.resolved
+
+        face = (
+            f"{r.get('jawlineContour')} jawline, "
+            f"{r.get('cheekboneHeight')} cheekbones, "
+            f"{r.get('eyeShape')} eyes, "
+            f"{r.get('noseBridgeShape')} nasal bridge, "
+            f"{r.get('noseTipShape')} nose tip"
+        )
+
+        # simplified contrast cues for comic style
+        contrast_bits = (
+            f"{r.get('browDensity')} brows, "
+            f"{r.get('lashDefinition')} lashes"
+        )
+
+        # cartoon age morphology (no soft‑tissue realism)
+        age = (
+            f"stylized {self.age.replace('_', ' ')} features with clean inked contours "
+            f"and minimal anatomical shading"
+        )
+
+        # cartoon body silhouette (no muscle realism)
+        body = (
+            f"{BODY_TYPE_VISUAL[self.body_type]}, "
+            f"with simplified {r.get('shoulderWidth')} shoulders, "
+            f"{r.get('torsoProportion')} torso, "
+            f"{r.get('waistDefinition')} waist, "
+            f"{r.get('hipWidth')} hips"
+        )
+
+        hair = (
+            f"{r.get('hairSilhouette')} silhouette, "
+            f"{r.get('hairTexture')} texture, "
+            f"{r.get('hairColor')} color"
+        )
+
+        return (
+            f"A {self.age.replace('_', ' ')} {self.gender} presentation "
+            f"{self.ethnicity.replace('_', ' ')} individual. "
+            f"Facial structure includes a {face}. "
+            f"Contrast features include {contrast_bits}. "
+            f"Skin tone is {r.get('skinTone')} rendered as flat color. "
+            f"Hair has {hair}. "
+            f"Age morphology shows {age}. "
+            f"Body silhouette is {body}."
+        )
+
 
     def describe(self):
         r = self.resolved
@@ -131,23 +241,39 @@ class CharacterIdentity:
         )
 
 
-        age = (
-            f"{self.age.replace('_', ' ')} soft‑tissue volume "
-            f"({r.get('softTissueVolume')}), "
+        # --- AGE ---
+        age_visual = AGE_MORPHOLOGY_VISUAL[self.age]
+        age_detail = (
+            f"{r.get('softTissueVolume')} soft‑tissue volume, "
+            f"{r.get('cheekFullness')} cheek fullness, "
+            f"{r.get('underEyeDefinition')} under‑eye definition, "
+            f"{r.get('nasolabialFoldDepth')} nasolabial fold depth, "
             f"{r.get('skinTexture')} skin texture"
         )
 
-        body = (
-            f"{self.body_type} body type with "
+        age = f"{age_visual}, with {age_detail}"
+
+        # --- BODY ---
+        body_visual = BODY_TYPE_VISUAL[self.body_type]
+        body_detail = (
             f"{r.get('shoulderWidth')} shoulders, "
+            f"{r.get('torsoProportion')} torso proportion, "
             f"{r.get('waistDefinition')} waist definition, "
+            f"{r.get('hipWidth')} hips, "
             f"{r.get('muscleDefinition')} muscle definition"
         )
 
+        body = f"{body_visual}, with {body_detail}"
+        hair_token = r.get('hairSilhouette', '').replace(' ', '_').replace('-', '_').lower()
+
+        hair_description = self.hair_description.get(hair_token)
+
         hair = (
-            f"{r.get('hairTexture')} texture "
-            f"and {r.get('hairColor')} color"
+            f"{hair_description} with "
+            f"{r.get('hairTexture')} texture and "
+            f"{r.get('hairColor')} color"
         )
+
 
         return (
             f"A {self.age.replace('_', ' ')} {self.gender} presentation "
@@ -172,6 +298,7 @@ class CharacterIdentity:
             "visualStyle": "",
             "notes": "",
             "characterDescription": self.describe(),
+            "characterDescriptionCartoon": self.describe_toon(),
             "height": self.height,
             "ethnicity": self.ethnicity,
             "gender": self.gender,
@@ -180,6 +307,7 @@ class CharacterIdentity:
             "skin_tone": self.skin_tone,
             "hair_color": self.hair_color,
             "hair_texture": self.hair_texture,
+            "hair_silhouette": self.hair_silhouette,
             "identity": self.resolved
         }
 
@@ -194,6 +322,7 @@ class CharacterIdentity:
             skin_tone=data["skin_tone"],
             hair_color=data["hair_color"],
             hair_texture=data.get("hair_texture"),
+            hair_silhouette=data.get("hair_silhouette"),
             overrides=data.get("identity", {}),
             lut_path=lut_path
     )
@@ -238,8 +367,6 @@ def export_characters(*characters):
         obj.resolved = data["identity"]
 
         return obj
-
-
 
 
 class CharacterRegistry:
@@ -287,7 +414,7 @@ if __name__ == '__main__':
     jade = CharacterIdentity(
         height="average",
         ethnicity="east_asian",
-        gender="feminine",
+        gender="masculine",
         age="young_adult",
         body_type="fit",
         skin_tone="light",
