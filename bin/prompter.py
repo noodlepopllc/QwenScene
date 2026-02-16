@@ -4,7 +4,7 @@ gemma = "gemma3:27b"
 llava = "llava:34b"
 
 
-def main(template, images, prompt, model, host):
+def main(template, images, prompt, model, host, users):
     client = ollama.Client(host=f'http://{host}:11434')
     client.generate(model=model, keep_alive=0)
     # Build messages in the correct hierarchy
@@ -12,16 +12,21 @@ def main(template, images, prompt, model, host):
         {
             "role": "system",
             "content": template
-        },
-        {
-            "role": "user",
-            "content": prompt
         }
     ]
+    if prompt:
+        messages.append({"role":"user","content":prompt})
+    if users is not None:
+        for user in users:
+            messages.append({"role":"user","content":user}) 
+        
 
     # Attach images to the user message (Qwen3-VL expects this)
     if images:
-        messages[1]["images"] = images
+        if len(messages) > 1:
+            messages[1]["images"] = images
+        else:
+            messages.append({"role":"user","content":"", "images": images})
 
     # Call Ollama with expanded context
     response = client.chat(
@@ -52,6 +57,7 @@ if __name__ == '__main__':
     parser.add_argument('-G', '--globaltemplate', type=str, default=None, help='top level to be included')
     parser.add_argument('-m', '--model', type=str, default='qwen', help='model [qwen, gemma, llava]')
     parser.add_argument('-H', '--host', type=str, default='192.168.1.178', help='host ollama server is on')
+    parser.add_argument('-U', '--user', action='append', help='user prompt') 
 
     args = parser.parse_args()
 
@@ -78,13 +84,20 @@ if __name__ == '__main__':
             with open(pr, 'r') as fp:
                 prompt += fp.read() + '\n'
 
+    user = None
+    if args.user is not None:
+        user = []
+        for us in args.user:
+            with open(us, 'r') as fp:
+                user.append(fp.read())
+
     prompt = prompt + args.prompt
 
     # Images list (or None)
     images = args.image if args.image else None
 
     # Run
-    response = main(template, images, prompt, models[args.model], args.host)
+    response = main(template, images, prompt, models[args.model], args.host, user)
 
     print(response["message"]['content'])
 
