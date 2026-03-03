@@ -178,5 +178,15 @@
     "garment_type": "shirt",
     "default_style": "LONG_SLEEVE",
     "default_primary_color_hex": "#B8B6B0"
+  },
+  
+  "NUDE": {
+    "id": 20,
+    "vocab": "NUDE",
+    "name": "nude, naked",
+    "slot": "onepiece",
+    "garment_type": "nude",
+    "default_style": "na",
+    "default_primary_color_hex": "na"
   }
 }

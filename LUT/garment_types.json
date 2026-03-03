@@ -87,5 +87,13 @@
       "SLEEVELESS", "SHORT_SLEEVE", "LONG_SLEEVE",
       "CREW", "SCOOP", "V_CUT"
     ]
+  },
+
+  "nude": {
+       "slot": "naked",
+       "default_coverage": [0,0,0,0,0,0,0,0,0],
+       "zipper_state": "na",
+       "zipper_exposed": false,
+       "allowed_styles_override": []
   }
 }

@@ -18,5 +18,9 @@
   "rgb:orange":             [138, 106, 79],     
   "rgb:yellow":             [184, 182, 176],   
   "rgb:green":              [110, 122, 95],    
-  "rgb:blue":               [74, 111, 180]     
+  "rgb:blue":               [74, 111, 180],
+
+  "rgb:lightblue":          [74, 111, 180],
+  "rgb:teal":               [79, 122, 118],
+  "rgb:purple":             [90, 107, 122]     
 }
