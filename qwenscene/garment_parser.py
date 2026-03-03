@@ -31,9 +31,12 @@ class ColorMaterialResolver:
         if hue:
             base_r, base_g, base_b = self.rgb_map[hue]
         else:
-            base_r = int(default_hex[1:3], 16)
-            base_g = int(default_hex[3:5], 16)
-            base_b = int(default_hex[5:7], 16)
+            try:
+                base_r = int(default_hex[1:3], 16)
+                base_g = int(default_hex[3:5], 16)
+                base_b = int(default_hex[5:7], 16)
+            except:
+                return ''
 
         # brightness only applies if hue exists
         b_mult = self.brightness_map.get(brightness, 1.0) if hue else 1.0
@@ -323,7 +326,7 @@ class ClothingParser:
 
 if __name__ == '__main__':
     parser = ClothingParser()
-    clothing = "she is wearing a mini sleeveless scoop tattered dress with brown synthetic flats"
+    clothing = "she is nude"
     output = parser.parse(clothing)
     print(clothing)
     print(output['garments'][0])

@@ -80,6 +80,12 @@ def outfit_phrase(garments, visible_zones, zone_filter):
         if any(g.coverage[z] == 1 for z in visible_zones):
             visible.append(g.name)
 
+    if len(visible) == 0:
+        for g in garments:
+            if g.slot == "onepiece":
+                visible.append(g.name)
+        
+
     return ", ".join(visible)
 
 
@@ -128,6 +134,8 @@ def describe_character_outfit(pronoun, sentence, zone_filter="full_body", view="
     skin = exposed_skin('bare', coverage, visible_zones, garments, view=view)
 
     if skin:
+        if 'nude in clothing':
+            return f"{pronoun} is {clothing} with {skin}, barefoot"
         return f"{pronoun} is wearing {clothing} with {skin}"
     return f"{pronoun} is wearing {clothing}"
 
@@ -154,5 +162,7 @@ if __name__ == '__main__':
     pronouns = {"feminine": "she", "masculine": "he", "androgynous": "they"}
     pronoun = pronouns[jade2['gender']]
     clothing = f"{pronoun.capitalize()} is wearing a red halter dress and blue leather sneakers."
+    clothing = "she is nude"
     clothing = describe_character_outfit(pronoun, clothing)
-    print(f"{jade2['characterDescription']} {clothing}.")
+    print(clothing)
+    #print(f"{jade2['characterDescription']} {clothing}.")
